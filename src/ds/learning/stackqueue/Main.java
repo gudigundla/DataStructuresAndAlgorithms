@@ -1,4 +1,4 @@
-package ds.learning.ds.learning.stackqueue;
+package ds.learning.stackqueue;
 
 public class Main {
 
