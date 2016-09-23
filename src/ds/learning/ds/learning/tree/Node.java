@@ -1,4 +1,4 @@
-package ds.learning.gudigundla;
+package ds.learning.ds.learning.tree;
 
 import java.util.LinkedList;
 import java.util.Queue;

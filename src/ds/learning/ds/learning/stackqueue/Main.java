@@ -1,5 +1,4 @@
-import java.util.Calendar;
-import java.util.Date;
+package ds.learning.ds.learning.stackqueue;
 
 public class Main {
 
@@ -32,7 +31,7 @@ public class Main {
         System.out.println("Dequeued - " +myQueue.dequeue());
         System.out.println("Dequeued - " +myQueue.dequeue());
 
-     /*   MyStack myStack=new MyStack(6);
+     /*   ds.learning.ds.learning.stackqueue.MyStack myStack=new ds.learning.ds.learning.stackqueue.MyStack(6);
 
         myStack.push(12);
         myStack.push(13);

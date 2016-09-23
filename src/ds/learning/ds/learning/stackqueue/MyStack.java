@@ -1,3 +1,5 @@
+package ds.learning.ds.learning.stackqueue;
+
 /**
  * Created by hari.gudigundla on 16-09-08.
  */
