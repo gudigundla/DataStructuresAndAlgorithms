@@ -4,6 +4,7 @@ import java.util.*;
 
 /**
  * Created by hari.gudigundla on 16-09-23.
+ *
  */
 public class MyTrie {
     char letter;
@@ -66,6 +67,7 @@ public class MyTrie {
         else return false;
     }
 
+    //delete word from trie
     public void deleteWord(String word){
 
         MyTrie currentNode=this;
@@ -96,6 +98,7 @@ public class MyTrie {
 
     }
 
+    //helper method to find list of words with currentNode
     private void wordsWithCurrentNode(MyTrie node, String prefix,List<String> list){
 
         for (Map.Entry<Character,MyTrie>  letter: node.children.entrySet()){
@@ -107,6 +110,7 @@ public class MyTrie {
         }
     }
 
+    //Find the list of words with the prefix
     public List<String> findAllWordsWithPrefix(String prefix){
         MyTrie lastNode=searcMyTrieNode(prefix);
         List<String> wordsWithPrefix = new ArrayList<String>();
@@ -117,6 +121,5 @@ public class MyTrie {
         }
         return wordsWithPrefix;
     }
-
 
 }
