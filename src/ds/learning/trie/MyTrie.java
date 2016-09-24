@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * Created by hari.gudigundla on 16-09-23.
- *
+ * Trie implementaion with insertWord(), searchWord(), deleteWord(), searchPrefix(), findAllWordsWithPrefix() functions.
  */
 public class MyTrie {
     char letter;
