@@ -7,6 +7,11 @@ import java.util.Queue;
  * Created by hari.gudigundla on 16-10-07.
  */
 public class BinaryTree {
+
+    int value;
+    BinaryTree left;
+    BinaryTree right;
+
     public int getValue() {
         return value;
     }
@@ -30,10 +35,6 @@ public class BinaryTree {
     public void setRight(BinaryTree right) {
         this.right = right;
     }
-
-    int value;
-    BinaryTree left;
-    BinaryTree right;
 
     public BinaryTree(int value){
         this.value=value;
@@ -102,18 +103,17 @@ public class BinaryTree {
         node2.left=node5;
         node2.right=node6;
         node5.left=node7;
-        //node7.left=node8;
+        node7.left=node8;
 
         return root;
     }
 
     public static boolean isBalanced(BinaryTree node){
-        //find 2 heights of a node and if they differ by 0/1 return maxHeight, else return -1
         if(balancedHeight(node)>-1)
             return true;
         else return false;
     }
-
+    //find 2 heights of a node and if they differ by 0/1 return maxHeight, else return -1
     private static int balancedHeight(BinaryTree node){
         if(node==null) return 0;
         else{
@@ -121,12 +121,11 @@ public class BinaryTree {
             int rHeight=balancedHeight(node.right);
 
             if(lHeight>-1 && rHeight>-1) {
-                if (Math.abs(lHeight-rHeight)>1)
+                if (Math.abs(lHeight-rHeight)<=1)
                     return 1 + Math.max(lHeight, rHeight);
                 else return -1;
             }
             else return -1;
-
         }
     }
 
