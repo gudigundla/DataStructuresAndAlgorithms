@@ -12,6 +12,8 @@ public class BinaryTree {
     BinaryTree left;
     BinaryTree right;
 
+    public BinaryTree(){}
+
     public int getValue() {
         return value;
     }
