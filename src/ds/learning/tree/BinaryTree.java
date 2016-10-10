@@ -85,6 +85,23 @@ public class BinaryTree {
         }
     }
 
+    public static BinaryTree createBinaryTree(int n){
+        Queue<BinaryTree> queue=new LinkedList<BinaryTree>();
+        BinaryTree root=new BinaryTree(0);
+        queue.add(root);
+        int value=1;
+        while (!queue.isEmpty() && value<n){
+            BinaryTree node= queue.poll();
+            BinaryTree left= new BinaryTree(value++);
+            BinaryTree right=new BinaryTree(value++);
+            node.setLeft(left);
+            node.setRight(right);
+            queue.add(left);
+            queue.add(right);
+        }
+        return root;
+    }
+
     public static BinaryTree createBinaryTree() {
         BinaryTree root=new BinaryTree(0);
         BinaryTree node1=new BinaryTree(1);
@@ -103,7 +120,7 @@ public class BinaryTree {
         node2.left=node5;
         node2.right=node6;
         node5.left=node7;
-        node7.left=node8;
+        //node7.left=node8;
 
         return root;
     }
@@ -140,9 +157,24 @@ public class BinaryTree {
         }
     }
 
-    public void addNode(BinaryTree node){
-
+    public static void getElementsOfALevel(BinaryTree node, int k){
+        getElementsOfALevel(node,0,k);
     }
+
+    private static void getElementsOfALevel(BinaryTree node, int cLevel, int rLevel){
+        if(node==null) return;
+        if(cLevel==rLevel){
+            System.out.print(node.value + ", ");
+            return;
+        }
+        else{
+            cLevel++;
+            getElementsOfALevel(node.getLeft(),cLevel,rLevel);
+            getElementsOfALevel(node.getRight(),cLevel,rLevel);
+        }
+    }
+
+    public void addNode(BinaryTree node){}
 
     public BinaryTree deleteNode(BinaryTree node, int value){
         return null;
