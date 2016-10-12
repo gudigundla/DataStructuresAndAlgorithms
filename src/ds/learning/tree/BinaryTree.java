@@ -1,6 +1,8 @@
 package ds.learning.tree;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -11,6 +13,7 @@ public class BinaryTree {
     int value;
     BinaryTree left;
     BinaryTree right;
+    BinaryTree next;
 
     public BinaryTree(){}
 
@@ -159,21 +162,28 @@ public class BinaryTree {
         }
     }
 
-    public static void getElementsOfALevel(BinaryTree node, int k){
-        getElementsOfALevel(node,0,k);
+    public static void connectSiblingsOfaTree(BinaryTree node){
+
+        Map<Integer,BinaryTree> map= new HashMap<>();
+        connectSiblingsOfaTree(node, 0, map);
     }
 
-    private static void getElementsOfALevel(BinaryTree node, int cLevel, int rLevel){
+    private static void connectSiblingsOfaTree(BinaryTree node, int cLevel, Map<Integer,BinaryTree> map){
         if(node==null) return;
-        if(cLevel==rLevel){
+
+            if(map.get(cLevel)!=null){
+                BinaryTree n=map.get(cLevel);
+                n.next=node;
+
+            }
+            map.put(cLevel, node);
+
             System.out.print(node.value + ", ");
-            return;
-        }
-        else{
+
             cLevel++;
-            getElementsOfALevel(node.getLeft(),cLevel,rLevel);
-            getElementsOfALevel(node.getRight(),cLevel,rLevel);
-        }
+        connectSiblingsOfaTree(node.getLeft(), cLevel, map);
+        connectSiblingsOfaTree(node.getRight(), cLevel, map);
+
     }
 
     public void addNode(BinaryTree node){}
@@ -184,5 +194,10 @@ public class BinaryTree {
 
     public BinaryTree searchNode(BinaryTree node,int value){
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return value+"";
     }
 }

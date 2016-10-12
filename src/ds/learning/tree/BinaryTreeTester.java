@@ -24,7 +24,9 @@ public class BinaryTreeTester {
             System.out.println("Balanced");
         else System.out.println("Unbalanced");
 
-        BinaryTree.getElementsOfALevel(root,5);
+        BinaryTree.connectSiblingsOfaTree(root);
+
+        System.out.println();
 
         List<Integer> items= Arrays.asList(1,2,3,4,5);
         ListIterator<Integer> iterator= items.listIterator(items.size());
