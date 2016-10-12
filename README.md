@@ -1,4 +1,4 @@
-# DataStructuresAndAlgorithms
+# Data Structures, Algorithms & Java
 Learning, Implementing various Data Structures &amp; Algorithms
 
 # Data Structures - Stack, Queue, Linked List, Doubly Linked List, Tree, BST, Trie
