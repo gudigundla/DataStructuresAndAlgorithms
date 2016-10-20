@@ -7,6 +7,8 @@
 ####Linked List, Doubly Linked List
 ####Tree- Binary Tree, BST (Red Black Tree, AVL Tree), Trie
 
-## Algorithms - Sorting: Insertion sort, Quick sort (Fixed Pivot & Randomized)
+## Algorithms:
+####Sorting: Insertion sort, Quick sort (Fixed Pivot & Randomized)
 
-## Java - Iterator, Iterable
+## Java API:
+####Iterator, Iterable
