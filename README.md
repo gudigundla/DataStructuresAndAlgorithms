@@ -5,10 +5,10 @@
 ####Stack - using Array
 ####Queue - using Array
 ####Linked List, Doubly Linked List
-####Tree- Binary Tree, BST (Red Black Tree, AVL Tree), Trie
+####Tree - Binary Tree, BST (Red Black Tree, AVL Tree), Trie
 
 ## Algorithms:
-####Sorting: Insertion sort, Quick sort (Fixed Pivot & Randomized)
+####Sorting - Insertion sort, Quick sort (Fixed Pivot & Randomized)
 
 ## Java API:
 ####Iterator, Iterable
