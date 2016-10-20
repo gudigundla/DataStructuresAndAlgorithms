@@ -73,10 +73,21 @@ public class BinarySearchTree extends BinaryTree {
     }
 
     private BinaryTree minNodeInTree(BinaryTree node) {
-        while (node.getLeft()!=null){
+        BinaryTree previous=null;
+        while (node!=null){
+            previous=node;
             node=node.getLeft();
         }
-        return node;
+        return previous;
+    }
+
+    private BinaryTree maxNodeInTree(BinaryTree node){
+        BinaryTree previous=null;
+        while(node!=null){
+            previous=node;
+            node=node.getRight();
+        }
+        return previous;
     }
 
     @Override
@@ -89,5 +100,13 @@ public class BinarySearchTree extends BinaryTree {
         else reqNode=node;
 
        return reqNode;
+    }
+
+    public BinaryTree successor(BinaryTree node, int data){
+        return minNodeInTree(node.getRight());
+    }
+
+    public BinaryTree predecessor(BinaryTree node, int data){
+        return maxNodeInTree(node.getLeft());
     }
 }
