@@ -13,6 +13,8 @@ public class AVLTreeTester {
         root=avl.insert(root,30);
         root=avl.insert(root,20);
 
+        root=avl.delete(root,30);
+
         //BTreePrinter.printNode(root);
 
     }
