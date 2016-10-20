@@ -2,8 +2,8 @@
 ####Learning, Implementing various Data Structures &amp; Algorithms
 
 ## Data Structures: 
-####Stack
-####Queue
+####Stack - using Array
+####Queue - using Array
 ####Linked List, Doubly Linked List
 ####Tree- Binary Tree, BST (Red Black Tree, AVL Tree), Trie
 
