@@ -24,7 +24,6 @@ public class BinarySearchTree extends BinaryTree {
         }
     }
 
-
     //returns the node after deletion
     //so ultimately returns the root of BST
     @Override
@@ -33,7 +32,7 @@ public class BinarySearchTree extends BinaryTree {
         //replacing by min from right sub tree
         return deleteNodeUsingMinFromRightSubTree(node,value);
         //replacing by max of left sub tree
-        //return deleteNodeUsingMaxFromLeftSubTree(node, value);
+        //return deleteNodeUsingMaxFromLeftSubTree(node, data);
     }
 
     private BinaryTree deleteNodeUsingMaxFromLeftSubTree(BinaryTree node, int value) {

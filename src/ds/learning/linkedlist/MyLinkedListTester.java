@@ -1,5 +1,8 @@
 package ds.learning.linkedlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by hari.gudigundla on 16-10-11.
  */
@@ -22,6 +25,7 @@ public class MyLinkedListTester {
         list.delete(21);
 
         for(Object node:list){
+            List list1= new ArrayList();
             Node n=(Node)node;
             System.out.println(n.getValue());
         }
