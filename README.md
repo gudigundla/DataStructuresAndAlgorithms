@@ -5,7 +5,7 @@
 ####Stack - using Array
 ####Queue - using Array
 ####Linked List, Doubly Linked List
-####Tree - Binary Tree, BST (Red Black Tree, AVL Tree), Trie
+####Tree - Binary Tree, BST (Red Black Tree, AVL Tree), Heap (Min Heap), Trie
 
 ## Algorithms:
 ####Sorting - Insertion sort, Quick sort (Fixed Pivot & Randomized)
