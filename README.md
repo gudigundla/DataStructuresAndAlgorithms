@@ -5,7 +5,7 @@
 ####Stack - using Array
 ####Queue - using Array
 ####Linked List, Doubly Linked List
-####Tree - Binary Tree, BST (Red Black Tree, AVL Tree), Heap (Min Heap), Trie
+####Tree - Binary Tree, Binary Search Tree (Red Black, AVL), Heap (Min Heap), Trie
 ####Graph - DFS, BFS
 
 ## Algorithms:
