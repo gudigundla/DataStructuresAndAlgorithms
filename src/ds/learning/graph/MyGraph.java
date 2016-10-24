@@ -5,6 +5,7 @@ import java.util.*;
 /**
  * Created by hari.gudigundla on 16-10-22.
  * Simple directed weighted acyclic graph representation - Adjacency lists
+ * DFS, BFS, Topological Sort, Dijkstra's Algorithm
  * graph- https://upload.wikimedia.org/wikipedia/commons/3/3b/Shortest_path_with_direct_weights.svg
  */
 public class MyGraph {
