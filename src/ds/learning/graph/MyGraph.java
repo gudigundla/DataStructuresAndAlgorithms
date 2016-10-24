@@ -32,8 +32,7 @@ public class MyGraph {
     public void DFS(char startVertex, Map<Character,Boolean> visited){
         Stack<Character> stack=new Stack();
         stack.add(startVertex);
-        visited.put(startVertex,true);
-        System.out.print(startVertex +" ");
+
 
         while(!stack.isEmpty()){
             char vertex=stack.peek();
@@ -58,15 +57,22 @@ public class MyGraph {
             //}
         }
 
+
+    }
+
+    public void DFT(){
+        Map<Character,Boolean> visited=this.getVisistedMap();
         for(char v:vertices){
             if(!visited.get(v)){
-                DFS(v, visited);
+                System.out.print(v +" ");
+                visited.put(v,true);
+                this.DFS(v, visited);
             }
         }
         System.out.println();
     }
 
-    public void BFS(char startVertex, Map<Character,Boolean> visited){
+    public void BFT(char startVertex, Map<Character,Boolean> visited){
         Queue<Character> queue=new LinkedList();
         queue.add(startVertex);
         System.out.print(startVertex + " ");
@@ -86,10 +92,78 @@ public class MyGraph {
 
         for(char v:vertices){
             if(!visited.get(v)){
-                BFS(v,visited);
+                BFT(v, visited);
             }
         }
         System.out.println();
+    }
+
+    public Stack<Character> topologicalSort(){
+        Map<Character,Boolean> visited=this.getVisistedMap();
+        Stack<Character> stack=new Stack();
+        for(char v:vertices){
+            if(!visited.get(v)){
+                this.topoligicalSortOfVertex(v, stack, visited);
+            }
+        }
+    return stack;
+    }
+
+    public Map<Character,Integer>  shortestPathFromSingleSource(char source){
+        HeapMap shortestPathSoFar= new HeapMap();
+        initializeHeapMap(shortestPathSoFar);
+        Map<Character,Character> parent=new HashMap();
+        Map<Character,Integer> shortestPath= new HashMap();
+
+        shortestPathSoFar.decrease(source, 0);
+        parent.put(source,'\0');
+        dijktras(shortestPathSoFar, shortestPath, parent);
+
+        return shortestPath;
+        }
+
+    private void dijktras(HeapMap shortestPathSoFar, Map<Character,Integer> shortestPath, Map<Character,Character> parent){
+        //take min from HeapMap
+        //add it to shortestPath
+        //update parent
+
+        HeapMap.VertexDistance nextShortestVertex = shortestPathSoFar.deleteMin();
+
+        shortestPath.put(nextShortestVertex.vertex,nextShortestVertex.distance);
+
+        //for all neighbours of nextShortestVertex, if exists in shortestPathSoFar, update it if this new path is min
+        Node neighbour= edges.get(nextShortestVertex.vertex);
+        while(neighbour!=null){
+            if(shortestPathSoFar.contains(neighbour.vertex)) {
+                int shortestDistanceSoFar= shortestPathSoFar.getShortestDistanceSoFar(neighbour.vertex);
+                int newDistance= shortestPath.get(nextShortestVertex.vertex) + neighbour.weight;
+                if( newDistance < shortestDistanceSoFar){
+                    shortestPathSoFar.decrease(neighbour.vertex, newDistance);
+                    parent.put(neighbour.vertex,nextShortestVertex.vertex);
+                }
+            }
+            neighbour=neighbour.next;
+        }
+        if(!shortestPathSoFar.isEmpty())
+            dijktras(shortestPathSoFar, shortestPath, parent);
+    }
+
+    private void initializeHeapMap(HeapMap shortestPathSoFar){
+        for(char v:vertices){
+            shortestPathSoFar.insert(new HeapMap.VertexDistance(v, Integer.MAX_VALUE));
+        }
+    }
+
+    private void topoligicalSortOfVertex(char vertex,Stack<Character> stack,Map<Character,Boolean> visited){
+        Node neighbour=edges.get(vertex);
+        while(neighbour!=null){
+            if(!visited.get(neighbour.vertex)){
+                topoligicalSortOfVertex(neighbour.vertex,stack,visited);
+                }
+            neighbour=neighbour.next;
+        }
+        visited.put(vertex,true);
+        stack.push(vertex);
     }
 
     private Map<Character,Boolean> getVisistedMap(){
@@ -102,7 +176,7 @@ public class MyGraph {
 
     public static void main(String[] args){
         //create a graph, add edges using adjacency lists
-        MyGraph graph=new MyGraph(new char[]{'A', 'B', 'C', 'D', 'E', 'F',});
+        MyGraph graph=new MyGraph(new char[]{'A', 'B', 'C', 'D', 'E', 'F'});
 
         graph.addEdge('A','C',2);
         graph.addEdge('B','C',5);
@@ -112,20 +186,32 @@ public class MyGraph {
         graph.addEdge('C','E',3);
         graph.addEdge('E','D',4);
 
-        Map<Character,Boolean> visited=graph.getVisistedMap();
+//        graph.DFT();
+//        graph.BFT('B',visited);
+        Stack<Character> stack=graph.topologicalSort();
+//        while(!stack.isEmpty())
+//            System.out.println(stack.pop());
 
-//        graph.DFS('C',visited);
-        graph.BFS('B',visited);
+        Map<Character,Integer> shortestPaths = graph.shortestPathFromSingleSource('A');
+
+        for( Map.Entry<Character,Integer> path:shortestPaths.entrySet()){
+            System.out.println(path.getKey() + " - " + path.getValue());
+        }
     }
 
     public static class Node{
         char vertex;
         int weight;
         Node next;
+        Node parent;
 
         public Node(char vertex, int weight){
             this.vertex=vertex;
             this.weight=weight;
         }
+
      }
+
+
+
 }
