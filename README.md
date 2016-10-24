@@ -6,7 +6,7 @@
 ####Queue - using Array
 ####Linked List, Doubly Linked List
 ####Tree - Binary Tree, Binary Search Tree (Red Black, AVL), Heap (Min Heap), Trie
-####Graph - DFS, BFS
+####Graph - DFS, BFS, Topological Sort, Shortest Path (Dijkstra's)
 
 ## Algorithms:
 ####Sorting - Insertion sort, Quick sort (Fixed Pivot & Randomized)
