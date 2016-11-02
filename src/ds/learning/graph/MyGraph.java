@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Created by hari.gudigundla on 16-10-22.
  * Simple directed weighted acyclic graph representation - Adjacency lists
- * DFS, BFS, Topological Sort, Dijkstra's Algorithm
+ * DFS, BFS, Topological Sort, Dijkstra's Algorithm, DAG-Shortest Path, Bellman Ford Algorithm
  * graph- https://upload.wikimedia.org/wikipedia/commons/3/3b/Shortest_path_with_direct_weights.svg
  */
 public class MyGraph {
@@ -13,6 +13,7 @@ public class MyGraph {
     //Adjacency Lists
     char[] vertices;
     Map<Character,Node> edges;
+    final static int INF=99999;
 
     public MyGraph(char[] vertices){
         this.vertices=vertices ;
@@ -175,8 +176,85 @@ public class MyGraph {
         return visited;
     }
 
+    public Map<Character,Integer> DAG_ShortestPath(MyGraph graph, char source){
+        Stack<Character> stack=graph.topologicalSort();
+        System.out.println(stack);
+
+        Map<Character,Integer> shortestPath= this.initializeShortestPath();
+        shortestPath.put(source,0);
+        while(!stack.isEmpty()){
+            char vertex=stack.pop();
+            //update all adjacent vertices of vertex
+            Node adjacentVertex = edges.get(vertex);
+            while(adjacentVertex!=null){
+                if( shortestPath.get(adjacentVertex.vertex) > shortestPath.get(vertex) + adjacentVertex.weight)
+                    shortestPath.put(adjacentVertex.vertex, shortestPath.get(vertex) + adjacentVertex.weight);
+
+                adjacentVertex=adjacentVertex.next;
+            }
+        }
+    return shortestPath;
+    }
+
+    private Map<Character,Integer> initializeShortestPath(){
+        Map<Character,Integer> shortestPath=new HashMap();
+        for(char v:this.vertices){
+            shortestPath.put(v,INF);
+        }
+        return shortestPath;
+    }
+
+    public Map<Character,Integer> bellmanFord(MyGraph graph, char source){
+        Map<Character,Integer> shortestPath=initializeShortestPath();
+        Map<Character,Character> parent=new HashMap();
+        shortestPath.put(source,0);
+        for(int i=1;i<= graph.vertices.length -1 ;i++){
+            for(Map.Entry<Character,Node> entry: graph.edges.entrySet()){
+                Node edge = entry.getValue();
+                while(edge!=null){
+                    relax(entry.getKey(), edge.vertex, edge.weight, shortestPath,parent);
+                    edge=edge.next;
+                }
+            }
+
+        }
+
+        this.findIfNegativeCycleExists(graph,shortestPath,parent);
+
+    return shortestPath;
+    }
+
+    private void findIfNegativeCycleExists(MyGraph graph, Map<Character,Integer> shortestPath,Map<Character,Character> parent){
+        for(Map.Entry<Character,Node> entry: graph.edges.entrySet()){
+            Node edge = entry.getValue();
+            while(edge!=null){
+                char source=entry.getKey();
+                char destination =edge.vertex;
+                int weight= edge.weight;
+                int cost=shortestPath.get(destination);
+                if(cost > shortestPath.get(source) + weight){
+                    System.out.println("Negative Cycle vertex - " +destination);
+                    shortestPath.put(destination, shortestPath.get(source) + weight);
+                    parent.put(destination,source);
+                }
+                edge=edge.next;
+            }
+        }
+    }
+
+    private void relax(char source, char destination, int weight, Map<Character, Integer> shortestPath,Map<Character,Character> parent) {
+        int cost=shortestPath.get(destination);
+        if(cost > shortestPath.get(source) + weight){
+            shortestPath.put(destination, shortestPath.get(source) + weight);
+            //we can update parent here, if we want to track the path as well
+            //update parent of destination as source
+            parent.put(destination,source);
+        }
+    }
+
     public static void main(String[] args){
         //create a graph, add edges using adjacency lists
+        //graph- https://upload.wikimedia.org/wikipedia/commons/3/3b/Shortest_path_with_direct_weights.svg
         MyGraph graph=new MyGraph(new char[]{'A', 'B', 'C', 'D', 'E', 'F'});
 
         graph.addEdge('A','C',2);
@@ -198,6 +276,60 @@ public class MyGraph {
         for( Map.Entry<Character,Integer> path:shortestPaths.entrySet()){
             System.out.println(path.getKey() + " - " + path.getValue());
         }
+
+        //DAG
+        //graph with negative edges
+        //http://www2.hawaii.edu/~suthers/courses/ics311s16/Notes/Topic-19/addweight-counterexample-1.jpg
+        MyGraph graph2=new MyGraph(new char[]{'S','X','Z','Y','W'});
+
+        graph2.addEdge('S','X',2);
+        graph2.addEdge('X','Y',5);
+        graph2.addEdge('Y','Z',-10);
+        graph2.addEdge('S','Z',2);
+        graph2.addEdge('Z','W',2);
+
+        Map<Character,Integer> shortestPath=graph2.DAG_ShortestPath(graph2, 'S');
+        for(Map.Entry<Character,Integer> entry:shortestPath.entrySet())
+            System.out.println(entry.getKey() +" - " + entry.getValue());
+
+        System.out.println("-------------");
+
+        //graph with negative cycle
+        //http://i2.wp.com/techieme.in/wp-content/uploads/bf1.png
+        MyGraph graph3=new MyGraph(new char[]{'A','B','C','D','E','F','G','H'});
+
+        graph3.addEdge('A','E',6);
+        graph3.addEdge('A','B',8);
+        graph3.addEdge('B','C',6);
+        graph3.addEdge('D','B',2);
+        graph3.addEdge('E','F',3);
+        graph3.addEdge('E','G',2);
+        graph3.addEdge('F','G',6);
+        graph3.addEdge('C','H',4);
+        graph3.addEdge('H','G',-7);
+        graph3.addEdge('G','D',1);
+        graph3.addEdge('G','C',-1);
+
+        Map<Character,Integer> allPairsShortestPaths = graph3.bellmanFord(graph3,'A');
+        System.out.println("-------------");
+        for(Map.Entry<Character,Integer> entry: allPairsShortestPaths.entrySet())
+            System.out.println(entry.getKey() + " - "+ entry.getValue());
+/*
+        //another graph with negative cycle
+        MyGraph graph4=new MyGraph(new char[]{'A','B','C','D'});
+
+        graph4.addEdge('A','B',1);
+        graph4.addEdge('B','C',3);
+        graph4.addEdge('C','D',2);
+        graph4.addEdge('D','B',-6);
+
+        Map<Character,Integer> allPairsShortestPaths2 = graph4.bellmanFord(graph4,'A');
+        System.out.println("-------------");
+        for(Map.Entry<Character,Integer> entry: allPairsShortestPaths2.entrySet())
+            System.out.println(entry.getKey() + " - "+ entry.getValue());
+*/
+
+
     }
 
     public static class Node{
