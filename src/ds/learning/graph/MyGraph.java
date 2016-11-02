@@ -252,6 +252,52 @@ public class MyGraph {
         }
     }
 
+    private int[][] floydWarshall(MyGraph graph) {
+        Map<Character,Integer> nVertices=getnVertices(graph);
+        int[][] allPairsShortestPaths= initializeAllPairsShortestPaths(nVertices,graph);
+
+        for(int k=0;k<graph.vertices.length;k++){
+            for(int i=0;i<graph.vertices.length;i++){
+                for(int j=0;j<graph.vertices.length;j++){
+                    //relax (i,j) pair
+                    if(allPairsShortestPaths[i][j] > allPairsShortestPaths[i][k] + allPairsShortestPaths[k][j]){
+                        allPairsShortestPaths[i][j] = allPairsShortestPaths[i][k] + allPairsShortestPaths[k][j];
+                    }
+                }
+            }
+        }
+    return allPairsShortestPaths;
+    }
+
+    private Map<Character, Integer> getnVertices(MyGraph graph) {
+        Map<Character, Integer> nVertices=new HashMap();
+        for(int i=0;i<graph.vertices.length;i++)
+            nVertices.put(graph.vertices[i],i);
+    return nVertices;
+    }
+
+    private int[][] initializeAllPairsShortestPaths(Map<Character,Integer> nVertices,MyGraph graph) {
+        int[][] allPairsShortestPaths= new int[graph.vertices.length][graph.vertices.length];
+        for(int i=0;i<allPairsShortestPaths.length;i++){
+            int[] array= new int[graph.vertices.length];
+            Arrays.fill(array,INF);
+            allPairsShortestPaths[i]=array;
+        }
+
+        for(int i=0;i<allPairsShortestPaths[0].length;i++){
+            allPairsShortestPaths[i][i]=0;
+        }
+
+        for(Map.Entry<Character,Node> entry:graph.edges.entrySet()){
+            Node edge=entry.getValue();
+            while(edge!=null){
+                allPairsShortestPaths[nVertices.get(entry.getKey())][nVertices.get(edge.vertex)] = edge.weight;
+                edge=edge.next;
+            }
+        }
+        return allPairsShortestPaths;
+    }
+
     public static void main(String[] args){
         //create a graph, add edges using adjacency lists
         //graph- https://upload.wikimedia.org/wikipedia/commons/3/3b/Shortest_path_with_direct_weights.svg
@@ -310,9 +356,9 @@ public class MyGraph {
         graph3.addEdge('G','D',1);
         graph3.addEdge('G','C',-1);
 
-        Map<Character,Integer> allPairsShortestPaths = graph3.bellmanFord(graph3,'A');
+        Map<Character,Integer> shortestPaths2 = graph3.bellmanFord(graph3,'A');
         System.out.println("-------------");
-        for(Map.Entry<Character,Integer> entry: allPairsShortestPaths.entrySet())
+        for(Map.Entry<Character,Integer> entry: shortestPaths2.entrySet())
             System.out.println(entry.getKey() + " - "+ entry.getValue());
 /*
         //another graph with negative cycle
@@ -323,11 +369,20 @@ public class MyGraph {
         graph4.addEdge('C','D',2);
         graph4.addEdge('D','B',-6);
 
-        Map<Character,Integer> allPairsShortestPaths2 = graph4.bellmanFord(graph4,'A');
+        Map<Character,Integer> shortestPaths3 = graph4.bellmanFord(graph4,'A');
         System.out.println("-------------");
-        for(Map.Entry<Character,Integer> entry: allPairsShortestPaths2.entrySet())
+        for(Map.Entry<Character,Integer> entry: shortestPaths3.entrySet())
             System.out.println(entry.getKey() + " - "+ entry.getValue());
 */
+        System.out.println("-------------");
+
+        int[][] allPairsShortestPaths= graph3.floydWarshall(graph3);
+        for(int i=0;i<allPairsShortestPaths.length;i++){
+            for(int j=0;j<allPairsShortestPaths[0].length;j++){
+                System.out.print(allPairsShortestPaths[i][j] +" ");
+            }
+            System.out.println();
+        }
 
 
     }
