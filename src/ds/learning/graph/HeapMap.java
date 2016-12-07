@@ -9,7 +9,7 @@ import java.util.Map;
 public class HeapMap {
 
         VertexDistance[] items;
-        Map<Character,Integer> map;
+        Map<Integer,Integer> map;
         int last;
         int sizeOfArray;
 
@@ -32,7 +32,7 @@ public class HeapMap {
             bottomUpHeapify(last);
         }
 
-        public boolean contains(char vertex){
+        public boolean contains(int vertex){
             return map.containsKey(vertex);
         }
 
@@ -40,12 +40,12 @@ public class HeapMap {
             return map.isEmpty();
         }
 
-        public int getShortestDistanceSoFar(char vertex){
+        public double getShortestDistanceSoFar(int vertex){
             int index=map.get(vertex);
             return distance(items[index]);
         }
 
-        public void decrease(char vertex, int distance){
+        public void decrease(int vertex, double distance){
             int index=map.get(vertex);
             items[index].distance=distance;
             bottomUpHeapify(index);
@@ -126,8 +126,8 @@ public class HeapMap {
             return distance(left(parent))<=distance(right(parent))? leftIndex(parent) : rightIndex(parent);
         }
 
-        private int distance(VertexDistance node){
-            return node==null? Integer.MAX_VALUE : node.distance;
+        private double distance(VertexDistance node){
+            return node==null? Double.MAX_VALUE : node.distance;
         }
 
         private int leftIndex(int parent){
@@ -162,7 +162,7 @@ public class HeapMap {
             swapMapItems(child.vertex,parent.vertex);
         }
 
-        private void swapMapItems(char a, char b){
+        private void swapMapItems(int a, int b){
             int temp=map.get(a);
             map.put(a,map.get(b));
             map.put(b,temp);
@@ -173,20 +173,22 @@ public class HeapMap {
         }
 
         private void ensureEnoughSpace(){
-            if(last==sizeOfArray-1){
+            if(last>=sizeOfArray-1){
                 //double the array, copy all elements
                 VertexDistance[] newItems=new VertexDistance[2*sizeOfArray];
+
                 for(int i=0;i<sizeOfArray;i++){
                     newItems[i]=items[i];
                 }
+                sizeOfArray=2*sizeOfArray;
                 items=newItems;
             }
         }
     public static class VertexDistance{
-        char vertex;
-        int distance;
+        int vertex;
+        double distance;
 
-        public VertexDistance(char vertex,int distance){
+        public VertexDistance(int vertex,int distance){
             this.vertex=vertex;
             this.distance=distance;
         }
